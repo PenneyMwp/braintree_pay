@@ -1,0 +1,76 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mwp.braintreepay">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application android:name=".App">
+
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme" />
+
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
+
+        <activity
+            android:name=".SettingsActivity"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".GooglePaymentActivity"
+            android:label="@string/buy"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".CardActivity"
+            android:label="@string/buy"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".CreateTransactionActivity"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".PayPalActivity"
+            android:label="@string/paypal"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".VenmoActivity"
+            android:label="@string/venmo"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".VisaCheckoutActivity"
+            android:label="@string/visa_checkout_button"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".LocalPaymentsActivity"
+            android:label="@string/ideal_button"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.braintreepayments.api.BraintreeBrowserSwitchActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <data android:scheme="${applicationId}.braintree" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.braintreepayments.api.ThreeDSecureActivity" />
+
+        <service android:name="com.braintreepayments.api.internal.AnalyticsIntentService" />
+
+    </application>
+
+</manifest>

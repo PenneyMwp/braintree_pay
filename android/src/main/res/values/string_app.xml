@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="payment_prompt">
+        You need to pay %1$s dollar pre-payment. The renting fee is %2$s dollars per hour. After customer returns a power bank, we will deduct the renting fee and refund the balance to your bank account.
+    </string>
+
+</resources>

@@ -1,0 +1,125 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+group 'com.mwp.braintreepay'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.3.50'
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        jcenter()
+        flatDir {
+            dirs "${projectDir}/libs"
+        }
+
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/releases/'
+        }
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
+        maven {
+            url "https://cardinalcommerce.bintray.com/android"
+            credentials {
+                username 'braintree-team-sdk@cardinalcommerce'
+                password '220cc9476025679c4e5c843666c27d97cfb0f951'
+            }
+        }
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+ext {
+    configFileText = new File("${projectDir}/otc-config.android.json").getText('UTF-8')
+    config = JsonOutput.toJson(new JsonSlurper().parseText(configFileText)).replaceAll("\"", "\\\\\"")
+}
+
+android {
+    compileSdkVersion 28
+
+    sourceSets {
+        main {
+            java {
+                srcDir 'src/main/kotlin'
+            }
+            resources {
+                srcDir 'src/main/res'
+            }
+            manifest {
+                srcFile 'src/main/AndroidManifest.xml'
+            }
+        }
+    }
+
+    defaultConfig {
+        minSdkVersion 21
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "CONFIGURATION", "\"${config}\""
+
+        buildConfigField "String", "DEVELOPMENT_URL", "\"http://10.0.2.2:3000/\""
+
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation(name: 'visacheckout-android-sdk-6.6.0', ext: 'aar')
+    api 'org.jfrog.cardinalcommerce.gradle:cardinalmobilesdk:2.1.4-1'
+    implementation 'com.nimbusds:nimbus-jose-jwt:7.0.1'
+    api 'com.braintreepayments:browser-switch:0.2.0'
+    implementation 'io.card:android-sdk:5.5.1'
+    implementation('com.braintreepayments.api:drop-in:4.0.0') {
+        exclude group: 'com.braintreepayments.api', module: 'braintree'
+        because 'Use the development version of Braintree'
+    }
+    implementation 'com.braintreepayments.api:google-payment:3.0.1'
+    implementation 'com.google.android.gms:play-services-wallet:18.0.0'
+    implementation 'com.braintreepayments.api:visa-checkout:2.0.0'
+
+
+    //noinspection GradleDependency
+    implementation 'com.squareup.okio:okio:1.13.0'
+    //noinspection GradleDependency
+    implementation 'com.squareup.okhttp3:okhttp:3.8.1'
+    //noinspection GradleDependency
+    implementation 'com.google.code.gson:gson:2.8.1'
+    implementation 'de.greenrobot:eventbus:2.4.1'
+    //noinspection GradleDependency
+    implementation 'androidx.multidex:multidex:2.0.0'
+    implementation('com.squareup.retrofit:retrofit:1.9.0') {
+        exclude module: 'com.google.gson'
+    }
+
+    //noinspection GradleDependency
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.preference:preference:1.1.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+
+repositories {
+    google()
+}
