@@ -15,6 +15,10 @@ import io.flutter.plugin.common.PluginRegistry.Registrar
 class BraintreePayPlugin(val activity: Activity) : MethodCallHandler,
         PluginRegistry.ActivityResultListener {
 
+    @Suppress("MemberVisibilityCanBePrivate", "PropertyName")
+    val KEY_DEPOSIT = "deposit"
+    @Suppress("MemberVisibilityCanBePrivate", "PropertyName")
+    val KEY_HOURLY_AMOUNT = "hAmount"
     var result: Result? = null
 
     companion object {
@@ -30,27 +34,45 @@ class BraintreePayPlugin(val activity: Activity) : MethodCallHandler,
     }
 
     override fun onActivityResult(code: Int, resultCode: Int, data: Intent?): Boolean {
-//        if (code == 100) {
-//            if (resultCode == Activity.RESULT_OK) {
-//                val barcode = data?.getStringExtra("SCAN_RESULT")
-//                barcode?.let { this.result?.success(barcode) }
+////        if (code == 100) {
+////            if (resultCode == Activity.RESULT_OK) {
+////                val barcode = data?.getStringExtra("SCAN_RESULT")
+////                barcode?.let { this.result?.success(barcode) }
+////            } else {
+////                val errorCode = data?.getStringExtra("ERROR_CODE")
+////                this.result?.error(errorCode, null, null)
+////            }
+////            return true
+////        }
+//        if (resultCode == Activity.RESULT_OK) {
+//            @Suppress("ControlFlowWithEmptyBody")
+//            if (code == BaseActivity.DROP_IN_REQUEST) {
+////                if (data != null) {
+////                    val result = data.getParcelableExtra<DropInResult>(
+////                            DropInResult.EXTRA_DROP_IN_RESULT)
+////                    if (result != null && result.deviceData != null) {
+////                        val p = result.paymentMethodNonce
+////                        displayNonce(p, result.deviceData!!)
+////                    }
+////             }
 //            } else {
-//                val errorCode = data?.getStringExtra("ERROR_CODE")
-//                this.result?.error(errorCode, null, null)
+//                if (data != null) {
+//                    val returnedData = data.getParcelableExtra<Parcelable>(
+//                            BaseActivity.EXTRA_PAYMENT_RESULT)
+//                    val deviceData = data.getStringExtra(BaseActivity.EXTRA_DEVICE_DATA)
+//                    if (returnedData != null && returnedData is PaymentMethodNonce) {
+//                        displayNonce(returnedData, deviceData)
+//                    }
+//                }
 //            }
-//            return true
+//        } else if (resultCode != Activity.RESULT_CANCELED) {
+////            showDialog((data.getSerializableExtra(DropInActivity.EXTRA_ERROR) as Exception)
+////                    .message)
+//            this.result?.error("", "Payment Cancel", null)
 //        }
         if (resultCode == Activity.RESULT_OK) {
-            if (code == BaseActivity.DROP_IN_REQUEST) {
-//                if (data != null) {
-//                    val result = data.getParcelableExtra<DropInResult>(
-//                            DropInResult.EXTRA_DROP_IN_RESULT)
-//                    if (result != null && result.deviceData != null) {
-//                        val p = result.paymentMethodNonce
-//                        displayNonce(p, result.deviceData!!)
-//                    }
-//             }
-            } else {
+            @Suppress("ControlFlowWithEmptyBody")
+            if (code != BaseActivity.DROP_IN_REQUEST) {
                 if (data != null) {
                     val returnedData = data.getParcelableExtra<Parcelable>(
                             BaseActivity.EXTRA_PAYMENT_RESULT)
@@ -61,8 +83,6 @@ class BraintreePayPlugin(val activity: Activity) : MethodCallHandler,
                 }
             }
         } else if (resultCode != Activity.RESULT_CANCELED) {
-//            showDialog((data.getSerializableExtra(DropInActivity.EXTRA_ERROR) as Exception)
-//                    .message)
             this.result?.error("", "Payment Cancel", null)
         }
         return false
@@ -76,28 +96,58 @@ class BraintreePayPlugin(val activity: Activity) : MethodCallHandler,
             }
             call.method == "startCreditCard" -> {
                 this.result = result
-                result.success("ok")
-                launchCards()
+                val prepaid: String? = call.argument(KEY_DEPOSIT)
+                val pkg: String? = call.argument(KEY_HOURLY_AMOUNT)
+                if ((prepaid == null || pkg == null) || (prepaid.isEmpty() || pkg.isEmpty())) {
+                    this.result?.error("", "Payment args " +
+                            " parameter prepaid or pkg error", null)
+                } else {
+                    launchCards(prepaid, pkg)
+                }
             }
             call.method == "startGooglePay" -> {
                 this.result = result
-                result.success("ok")
-                launchGooglePayment()
+                val prepaid: String? = call.argument(KEY_DEPOSIT)
+                val pkg: String? = call.argument(KEY_HOURLY_AMOUNT)
+                if ((prepaid == null || pkg == null) || (prepaid.isEmpty() || pkg.isEmpty())) {
+                    this.result?.error("", "Payment args " +
+                            " parameter prepaid or pkg error", null)
+                } else {
+                    launchGooglePayment(prepaid, pkg)
+                }
             }
             call.method == "startVenMo" -> {
                 this.result = result
-                result.success("ok")
-                launchVenmo()
+                val prepaid: String? = call.argument(KEY_DEPOSIT)
+                val pkg: String? = call.argument(KEY_HOURLY_AMOUNT)
+                if ((prepaid == null || pkg == null) || (prepaid.isEmpty() || pkg.isEmpty())) {
+                    this.result?.error("", "Payment args " +
+                            " parameter prepaid or pkg error", null)
+                } else {
+                    launchVenmo(prepaid, pkg)
+                }
             }
             call.method == "startPaypal" -> {
                 this.result = result
-                result.success("ok")
-                launchPayPal()
+                val prepaid: String? = call.argument(KEY_DEPOSIT)
+                val pkg: String? = call.argument(KEY_HOURLY_AMOUNT)
+                if ((prepaid == null || pkg == null) || (prepaid.isEmpty() || pkg.isEmpty())) {
+                    this.result?.error("", "Payment args " +
+                            " parameter prepaid or pkg error", null)
+                } else {
+                    launchPayPal(prepaid, pkg)
+                }
             }
             call.method == "startVisaCheckOut" -> {
                 this.result = result
-                result.success("ok")
-                launchVisaCheckout()
+                val prepaid: String? = call.argument(KEY_DEPOSIT)
+                val pkg: String? = call.argument(KEY_HOURLY_AMOUNT)
+                if ((prepaid == null || pkg == null) || (prepaid.isEmpty() || pkg.isEmpty())) {
+                    this.result?.error("", "Payment args " +
+                            " parameter prepaid or pkg error", null)
+                } else {
+                    launchVisaCheckout(prepaid, pkg)
+                }
             }
             else -> {
                 result.notImplemented()
@@ -105,32 +155,42 @@ class BraintreePayPlugin(val activity: Activity) : MethodCallHandler,
         }
     }
 
-    private fun launchGooglePayment() {
+    private fun launchGooglePayment(prepaid: String, pkg: String) {
         val intent = Intent(activity, GooglePaymentActivity::class.java)
+        intent.putExtra(BaseActivity.EXTRA_DEPOSIT, prepaid)
+        intent.putExtra(BaseActivity.EXTRA_HOURLY_AMOUNT, pkg)
         activity.startActivityForResult(intent, BaseActivity.GOOGLE_PAYMENT_REQUEST)
     }
 
-    private fun launchCards() {
+    private fun launchCards(prepaid: String, pkg: String) {
         val intent = Intent(activity, CardActivity::class.java)
         intent.putExtra(BaseActivity.EXTRA_COLLECT_DEVICE_DATA,
                 Settings.shouldCollectDeviceData(activity))
+        intent.putExtra(BaseActivity.EXTRA_DEPOSIT, prepaid)
+        intent.putExtra(BaseActivity.EXTRA_HOURLY_AMOUNT, pkg)
         activity.startActivityForResult(intent, BaseActivity.CARDS_REQUEST)
     }
 
-    private fun launchPayPal() {
+    private fun launchPayPal(prepaid: String, pkg: String) {
         val intent = Intent(activity, PayPalActivity::class.java)
         intent.putExtra(BaseActivity.EXTRA_COLLECT_DEVICE_DATA,
                 Settings.shouldCollectDeviceData(activity))
+        intent.putExtra(BaseActivity.EXTRA_DEPOSIT, prepaid)
+        intent.putExtra(BaseActivity.EXTRA_HOURLY_AMOUNT, pkg)
         activity.startActivityForResult(intent, BaseActivity.PAYPAL_REQUEST)
     }
 
-    private fun launchVenmo() {
+    private fun launchVenmo(prepaid: String, pkg: String) {
         val intent = Intent(activity, VenmoActivity::class.java)
+        intent.putExtra(BaseActivity.EXTRA_DEPOSIT, prepaid)
+        intent.putExtra(BaseActivity.EXTRA_HOURLY_AMOUNT, pkg)
         activity.startActivityForResult(intent, BaseActivity.VENMO_REQUEST)
     }
 
-    private fun launchVisaCheckout() {
+    private fun launchVisaCheckout(prepaid: String, pkg: String) {
         val intent = Intent(activity, VisaCheckoutActivity::class.java)
+        intent.putExtra(BaseActivity.EXTRA_DEPOSIT, prepaid)
+        intent.putExtra(BaseActivity.EXTRA_HOURLY_AMOUNT, pkg)
         activity.startActivityForResult(intent, BaseActivity.VISA_CHECKOUT_REQUEST)
     }
 

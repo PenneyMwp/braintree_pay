@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
                   style: TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
-                  BraintreePay.startCreditCard();
+                  BraintreePay.startCreditCard("99","2");
                 },
               )),
           Padding(
@@ -86,7 +86,7 @@ class _MyAppState extends State<MyApp> {
                   style: TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
-                  BraintreePay.startGooglePay();
+                  BraintreePay.startGooglePay("99","2");
                 },
               )),
           Padding(
@@ -100,7 +100,7 @@ class _MyAppState extends State<MyApp> {
                   style: TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
-                  BraintreePay.startVenMo();
+                  BraintreePay.startVenMo("99","2");
                 },
               )),
           Padding(
@@ -114,7 +114,7 @@ class _MyAppState extends State<MyApp> {
                   style: TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
-                  BraintreePay.startPaypal();
+                  BraintreePay.startPaypal("99","2");
                 },
               )),
           Padding(
@@ -128,7 +128,7 @@ class _MyAppState extends State<MyApp> {
                   style: TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
-                  BraintreePay.startVisaCheckOut();
+                  BraintreePay.startVisaCheckOut("99","2");
                 },
               )),
         ],

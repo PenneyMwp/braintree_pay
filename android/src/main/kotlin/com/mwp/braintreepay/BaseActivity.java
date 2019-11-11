@@ -57,6 +57,8 @@ public abstract class BaseActivity extends AppCompatActivity
     public static final String EXTRA_PAYMENT_RESULT = "payment_result";
     public static final String EXTRA_DEVICE_DATA = "device_data";
     public static final String EXTRA_COLLECT_DEVICE_DATA = "collect_device_data";
+    public static final String EXTRA_DEPOSIT = "com.mwp.braintreepay.EXTRA_DEPOSIT";
+    public static final String EXTRA_HOURLY_AMOUNT = "com.mwp.braintreepay.EXTRA_HOURLY_AMOUNT";
     public static final int DROP_IN_REQUEST = 1;
     public static final int GOOGLE_PAYMENT_REQUEST = 2;
     public static final int CARDS_REQUEST = 3;
@@ -187,7 +189,7 @@ public abstract class BaseActivity extends AppCompatActivity
         if (mLoadingDialog == null) {
             mLoadingDialog = new MaterialDialog.Builder(this).title("Please wait")
                     .content("Payment init...").progress(true, 0)
-                    .cancelable(false).build();
+                    .canceledOnTouchOutside(false).build();
         }
         if (!isFinishing() && !mLoadingDialog.isShowing()) {
             mLoadingDialog.show();

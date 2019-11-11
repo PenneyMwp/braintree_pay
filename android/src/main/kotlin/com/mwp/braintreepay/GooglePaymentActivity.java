@@ -36,8 +36,11 @@ public class GooglePaymentActivity extends BaseActivity implements Configuration
     @Override
     protected void init(Bundle onSaveInstanceState) {
         setUpAsBack();
+        String deposit = getIntent().getStringExtra(BaseActivity.EXTRA_DEPOSIT);
+        String hAmount = getIntent().getStringExtra(BaseActivity.EXTRA_HOURLY_AMOUNT);
         TextView tvPaymentPrompt = findViewById(R.id.tv_payment_prompt);
-        tvPaymentPrompt.setText(String.format(getString(R.string.payment_prompt), "99", "1"));
+        tvPaymentPrompt.setText(String.format(getString(R.string.payment_prompt), deposit,
+                hAmount));
         mGooglePaymentButton = findViewById(R.id.google_payment_button);
         requestAuthorization();
     }

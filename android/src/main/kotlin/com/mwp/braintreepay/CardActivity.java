@@ -84,7 +84,10 @@ public class CardActivity extends BaseActivity implements ConfigurationListener,
     protected void init(Bundle onSaveInstanceState) {
         setUpAsBack();
         TextView tvPaymentPrompt = findViewById(R.id.tv_payment_prompt);
-        tvPaymentPrompt.setText(String.format(getString(R.string.payment_prompt), "99", "1"));
+        String deposit = getIntent().getStringExtra(BaseActivity.EXTRA_DEPOSIT);
+        String hAmount = getIntent().getStringExtra(BaseActivity.EXTRA_HOURLY_AMOUNT);
+        tvPaymentPrompt.setText(String.format(getString(R.string.payment_prompt), deposit,
+                hAmount));
         mCardForm = findViewById(R.id.card_form);
         mCardForm.setOnFormFieldFocusedListener(this);
         mCardForm.setOnCardFormSubmitListener(this);

@@ -43,8 +43,11 @@ public class PayPalActivity extends BaseActivity implements ConfigurationListene
     @Override
     protected void init(Bundle onSaveInstanceState) {
         setUpAsBack();
+        String deposit = getIntent().getStringExtra(BaseActivity.EXTRA_DEPOSIT);
+        String hAmount = getIntent().getStringExtra(BaseActivity.EXTRA_HOURLY_AMOUNT);
         TextView tvPaymentPrompt = findViewById(R.id.tv_payment_prompt);
-        tvPaymentPrompt.setText(String.format(getString(R.string.payment_prompt), "99", "1"));
+        tvPaymentPrompt.setText(String.format(getString(R.string.payment_prompt), deposit,
+                hAmount));
         mPayPalAppIndicator = findViewById(R.id.paypal_wallet_app_indicator);
         mBillingAgreementButton = findViewById(R.id.paypal_billing_agreement_button);
         mSinglePaymentButton = findViewById(R.id.paypal_single_payment_button);
