@@ -13,36 +13,41 @@ class BraintreePay {
     return version;
   }
 
-  static void startCreditCard(String deposit, String hAmount) {
-    _channel.invokeMethod('startCreditCard', {
+  static Future<Map<String, dynamic>> startCreditCard(
+      String deposit, String hAmount) async {
+    return await _channel.invokeMethod('startCreditCard', {
       KEY_DEPOSIT: deposit,
       KEY_HOURLY_AMOUNT: hAmount,
     });
   }
 
-  static void startGooglePay(String deposit, String hAmount) {
-    _channel.invokeMethod('startGooglePay', {
+  static Future<Map<String, dynamic>> startGooglePay(
+      String deposit, String hAmount) async {
+    return await _channel.invokeMethod('startGooglePay', {
       KEY_DEPOSIT: deposit,
       KEY_HOURLY_AMOUNT: hAmount,
     });
   }
 
-  static void startVenMo(String deposit, String hAmount) {
-    _channel.invokeMethod('startVenMo', {
+  static Future<Map<String, dynamic>> startVenMo(
+      String deposit, String hAmount) async {
+    return await _channel.invokeMethod('startVenMo', {
       KEY_DEPOSIT: deposit,
       KEY_HOURLY_AMOUNT: hAmount,
     });
   }
 
-  static void startPaypal(String deposit, String hAmount) {
-    _channel.invokeMethod('startPaypal', {
+  static Future<Map<String, dynamic>> startPaypal(
+      String deposit, String hAmount) async {
+    return await _channel.invokeMethod('startPaypal', {
       KEY_DEPOSIT: deposit,
       KEY_HOURLY_AMOUNT: hAmount,
     });
   }
 
-  static void startVisaCheckOut(String deposit, String hAmount) {
-    _channel.invokeMethod('startVisaCheckOut', {
+  static Future<Map<String, dynamic>> startVisaCheckOut(
+      String deposit, String hAmount) async {
+    return await _channel.invokeMethod('startVisaCheckOut', {
       KEY_DEPOSIT: deposit,
       KEY_HOURLY_AMOUNT: hAmount,
     });

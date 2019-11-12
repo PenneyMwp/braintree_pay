@@ -78,6 +78,7 @@ class BraintreePayPlugin(val activity: Activity) : MethodCallHandler,
                             BaseActivity.EXTRA_PAYMENT_RESULT)
                     val deviceData = data.getStringExtra(BaseActivity.EXTRA_DEVICE_DATA)
                     if (returnedData != null && returnedData is PaymentMethodNonce) {
+                        this.result?.success(mapOf("nonce" to returnedData.nonce))
                         displayNonce(returnedData, deviceData)
                     }
                 }
@@ -99,8 +100,7 @@ class BraintreePayPlugin(val activity: Activity) : MethodCallHandler,
                 val prepaid: String? = call.argument(KEY_DEPOSIT)
                 val pkg: String? = call.argument(KEY_HOURLY_AMOUNT)
                 if ((prepaid == null || pkg == null) || (prepaid.isEmpty() || pkg.isEmpty())) {
-                    this.result?.error("", "Payment args " +
-                            " parameter prepaid or pkg error", null)
+                    this.result?.error("", "Invalid parameters deposit or hAmount", null)
                 } else {
                     launchCards(prepaid, pkg)
                 }
@@ -110,8 +110,7 @@ class BraintreePayPlugin(val activity: Activity) : MethodCallHandler,
                 val prepaid: String? = call.argument(KEY_DEPOSIT)
                 val pkg: String? = call.argument(KEY_HOURLY_AMOUNT)
                 if ((prepaid == null || pkg == null) || (prepaid.isEmpty() || pkg.isEmpty())) {
-                    this.result?.error("", "Payment args " +
-                            " parameter prepaid or pkg error", null)
+                    this.result?.error("", "Invalid parameters deposit or hAmount", null)
                 } else {
                     launchGooglePayment(prepaid, pkg)
                 }
@@ -121,8 +120,7 @@ class BraintreePayPlugin(val activity: Activity) : MethodCallHandler,
                 val prepaid: String? = call.argument(KEY_DEPOSIT)
                 val pkg: String? = call.argument(KEY_HOURLY_AMOUNT)
                 if ((prepaid == null || pkg == null) || (prepaid.isEmpty() || pkg.isEmpty())) {
-                    this.result?.error("", "Payment args " +
-                            " parameter prepaid or pkg error", null)
+                    this.result?.error("", "Invalid parameters deposit or hAmount", null)
                 } else {
                     launchVenmo(prepaid, pkg)
                 }
@@ -132,8 +130,7 @@ class BraintreePayPlugin(val activity: Activity) : MethodCallHandler,
                 val prepaid: String? = call.argument(KEY_DEPOSIT)
                 val pkg: String? = call.argument(KEY_HOURLY_AMOUNT)
                 if ((prepaid == null || pkg == null) || (prepaid.isEmpty() || pkg.isEmpty())) {
-                    this.result?.error("", "Payment args " +
-                            " parameter prepaid or pkg error", null)
+                    this.result?.error("", "Invalid parameters deposit or hAmount", null)
                 } else {
                     launchPayPal(prepaid, pkg)
                 }
@@ -143,8 +140,7 @@ class BraintreePayPlugin(val activity: Activity) : MethodCallHandler,
                 val prepaid: String? = call.argument(KEY_DEPOSIT)
                 val pkg: String? = call.argument(KEY_HOURLY_AMOUNT)
                 if ((prepaid == null || pkg == null) || (prepaid.isEmpty() || pkg.isEmpty())) {
-                    this.result?.error("", "Payment args " +
-                            " parameter prepaid or pkg error", null)
+                    this.result?.error("", "Invalid parameters deposit or hAmount", null)
                 } else {
                     launchVisaCheckout(prepaid, pkg)
                 }
