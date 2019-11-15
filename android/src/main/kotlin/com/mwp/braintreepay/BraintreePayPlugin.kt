@@ -34,27 +34,17 @@ class BraintreePayPlugin(val activity: Activity) : MethodCallHandler,
     }
 
     override fun onActivityResult(code: Int, resultCode: Int, data: Intent?): Boolean {
-////        if (code == 100) {
-////            if (resultCode == Activity.RESULT_OK) {
-////                val barcode = data?.getStringExtra("SCAN_RESULT")
-////                barcode?.let { this.result?.success(barcode) }
-////            } else {
-////                val errorCode = data?.getStringExtra("ERROR_CODE")
-////                this.result?.error(errorCode, null, null)
-////            }
-////            return true
-////        }
 //        if (resultCode == Activity.RESULT_OK) {
 //            @Suppress("ControlFlowWithEmptyBody")
 //            if (code == BaseActivity.DROP_IN_REQUEST) {
-////                if (data != null) {
-////                    val result = data.getParcelableExtra<DropInResult>(
-////                            DropInResult.EXTRA_DROP_IN_RESULT)
-////                    if (result != null && result.deviceData != null) {
-////                        val p = result.paymentMethodNonce
-////                        displayNonce(p, result.deviceData!!)
-////                    }
-////             }
+//                if (data != null) {
+//                    val result = data.getParcelableExtra<DropInResult>(
+//                            DropInResult.EXTRA_DROP_IN_RESULT)
+//                    if (result != null && result.deviceData != null) {
+//                        val p = result.paymentMethodNonce
+//                        displayNonce(p, result.deviceData!!)
+//                    }
+//             }
 //            } else {
 //                if (data != null) {
 //                    val returnedData = data.getParcelableExtra<Parcelable>(
@@ -66,8 +56,8 @@ class BraintreePayPlugin(val activity: Activity) : MethodCallHandler,
 //                }
 //            }
 //        } else if (resultCode != Activity.RESULT_CANCELED) {
-////            showDialog((data.getSerializableExtra(DropInActivity.EXTRA_ERROR) as Exception)
-////                    .message)
+//            showDialog((data.getSerializableExtra(DropInActivity.EXTRA_ERROR) as Exception)
+//                    .message)
 //            this.result?.error("", "Payment Cancel", null)
 //        }
         if (resultCode == Activity.RESULT_OK) {
@@ -76,9 +66,11 @@ class BraintreePayPlugin(val activity: Activity) : MethodCallHandler,
                 if (data != null) {
                     val returnedData = data.getParcelableExtra<Parcelable>(
                             BaseActivity.EXTRA_PAYMENT_RESULT)
-                    val deviceData = data.getStringExtra(BaseActivity.EXTRA_DEVICE_DATA)
                     if (returnedData != null && returnedData is PaymentMethodNonce) {
                         this.result?.success(mapOf("nonce" to returnedData.nonce))
+                    }
+                    val deviceData = data.getStringExtra(BaseActivity.EXTRA_DEVICE_DATA)
+                    if (returnedData != null && returnedData is PaymentMethodNonce) {
                         displayNonce(returnedData, deviceData)
                     }
                 }
@@ -125,7 +117,7 @@ class BraintreePayPlugin(val activity: Activity) : MethodCallHandler,
                     launchVenmo(prepaid, pkg)
                 }
             }
-            call.method == "startPaypal" -> {
+            call.method == "startPayPal" -> {
                 this.result = result
                 val prepaid: String? = call.argument(KEY_DEPOSIT)
                 val pkg: String? = call.argument(KEY_HOURLY_AMOUNT)
